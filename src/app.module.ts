@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import * as dotenv from 'dotenv';
+import { JwtModule } from '@nestjs/jwt';
 
 dotenv.config();
 @Module({
@@ -18,6 +19,11 @@ dotenv.config();
       database: process.env.DB_NAME,
       entities: [],
       synchronize: true,
+      autoLoadEntities: true,
+    }),
+    JwtModule.register({
+      secret: process.env.secret_key,
+      signOptions: { expiresIn: process.env.JWT_EXPIRE },
     }),
     UsersModule,
     AuthModule,
