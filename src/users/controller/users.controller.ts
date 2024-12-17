@@ -1,4 +1,13 @@
-import { Controller, Post, Res, Body, HttpStatus, Get } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Res,
+  Body,
+  HttpStatus,
+  Get,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { ResponseStatus } from 'src/utils/response.enum';
 import { UsersService } from '../service/users.service';
@@ -24,6 +33,15 @@ export class UsersController {
       type: ResponseStatus.SUCCESS,
       message: 'Users has been found successfully',
       data: users,
+    });
+  }
+
+  @Delete(':id')
+  async deleteUser(@Param('id') id: number, @Res() response) {
+    await this.usersService.deleteUser(+id);
+    return response.status(HttpStatus.NO_CONTENT).json({
+      type: ResponseStatus.SUCCESS,
+      message: 'User has been deleted successfully',
     });
   }
 }

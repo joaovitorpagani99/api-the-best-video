@@ -33,7 +33,8 @@ export class UsersRepository {
     await this.userRepository.update(id, user);
   }
 
-  async deleteUser(id: number): Promise<void> {
-    await this.userRepository.delete(id);
+  async deleteUser(id: number) {
+    const result = await this.userRepository.delete(id);
+    return { affected: result.affected };
   }
 }
