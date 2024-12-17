@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { LoginDto } from './dto/LoginDto';
-import { UsersService } from '../users/users.service'; // Caminho relativo ajustado
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayloadDto } from './dto/jwt-payload.dto';
+import { LoginDto } from '../dto/LoginDto';
+import { JwtPayloadDto } from '../dto/jwt-payload.dto';
+import { UsersService } from 'src/users/service/users.service';
 
 @Injectable()
 export class AuthService {
