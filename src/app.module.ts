@@ -7,6 +7,8 @@ import { AuthModule } from './auth/auth.module';
 import * as dotenv from 'dotenv';
 import { JwtModule } from '@nestjs/jwt';
 import { LoggerMiddleware } from './common/middleware/http-logger.middleware';
+import { VideoModule } from './video/video.module';
+import { VoteModule } from './vote/vote.module';
 
 dotenv.config();
 @Module({
@@ -28,6 +30,8 @@ dotenv.config();
     }),
     UsersModule,
     AuthModule,
+    VideoModule,
+    VoteModule,
   ],
   controllers: [AppController],
   providers: [AppService],
