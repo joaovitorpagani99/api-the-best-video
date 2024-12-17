@@ -1,6 +1,5 @@
 export class JwtPayloadDto {
-  email: string;
-  id: string;
-  iat: number;
-  exp: number;
+  readonly email: string;
+  readonly id: string;
+  readonly iat: number;
 }

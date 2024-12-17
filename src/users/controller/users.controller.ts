@@ -1,4 +1,4 @@
-import { Controller, Post, Res, Body, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Res, Body, HttpStatus, Get } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { ResponseStatus } from 'src/utils/response.enum';
 import { UsersService } from '../service/users.service';
@@ -17,6 +17,7 @@ export class UsersController {
     });
   }
 
+  @Get()
   public async findAll(@Res() response) {
     const users = await this.usersService.findAll();
     return response.status(HttpStatus.OK).json({

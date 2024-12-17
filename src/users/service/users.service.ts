@@ -12,16 +12,18 @@ import { plainToInstance } from 'class-transformer';
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  async create(dto: CreateUserDto) {
+  async create(dto: CreateUserDto): Promise<User> {
     const user = plainToInstance(User, dto);
-
-    const newUser = await this.usersRepository.createUser(user);
-    if (!newUser) {
-      throw new BadRequestException('User not created');
+    try {
+      const newUser = await this.usersRepository.createUser(user);
+      if (!newUser) {
+        throw new BadRequestException('User not created');
+      }
+      return newUser;
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
-    return user;
   }
-
   async findEmail(email: string): Promise<User> {
     const user = await this.usersRepository.findEmail(email);
     if (!user) {
