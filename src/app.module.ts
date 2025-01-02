@@ -10,6 +10,8 @@ import { LoggerMiddleware } from './common/middleware/http-logger.middleware';
 import { VideoModule } from './video/video.module';
 import { VoteModule } from './vote/vote.module';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './auth/guard/roles.guard';
 
 dotenv.config();
 @Module({
@@ -38,7 +40,13 @@ dotenv.config();
     VoteModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

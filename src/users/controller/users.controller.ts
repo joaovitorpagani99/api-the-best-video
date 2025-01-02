@@ -7,6 +7,7 @@ import {
   Get,
   Delete,
   Param,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -19,9 +20,14 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { ResponseStatus } from 'src/utils/response.enum';
 import { UsersService } from '../service/users.service';
 import { Public } from 'src/auth/decorators/public.decorator';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/common/enums/role.enum';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guard/roles.guard';
 
 @ApiTags('users')
 @Controller('users')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -40,6 +46,7 @@ export class UsersController {
     });
   }
 
+  @Roles(Role.Admin)
   @Get()
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, description: 'Users retrieved successfully' })
@@ -52,6 +59,7 @@ export class UsersController {
     });
   }
 
+  @Roles(Role.Admin)
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a user' })
   @ApiResponse({ status: 204, description: 'User deleted successfully' })

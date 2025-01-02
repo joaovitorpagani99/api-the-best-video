@@ -14,7 +14,7 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
 
   const config = new DocumentBuilder()
-    .setTitle('API')
+    .setTitle('API The Best videos')
     .setDescription('API documentation')
     .setVersion('1.0')
     .addBearerAuth()
