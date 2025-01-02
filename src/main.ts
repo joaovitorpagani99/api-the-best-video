@@ -15,14 +15,16 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('API')
-    .setDescription('API')
+    .setDescription('API documentation')
     .setVersion('1.0')
-    .addTag('API')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+
   const reflector = app.get(Reflector);
   app.useGlobalGuards(new JwtAuthGuard(reflector));
+
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
