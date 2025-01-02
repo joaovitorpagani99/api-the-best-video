@@ -9,10 +9,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { LoggerMiddleware } from './common/middleware/http-logger.middleware';
 import { VideoModule } from './video/video.module';
 import { VoteModule } from './vote/vote.module';
+import { ConfigModule } from '@nestjs/config';
 
 dotenv.config();
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,

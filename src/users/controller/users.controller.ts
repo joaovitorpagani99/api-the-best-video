@@ -11,11 +11,13 @@ import {
 import { CreateUserDto } from '../dto/create-user.dto';
 import { ResponseStatus } from 'src/utils/response.enum';
 import { UsersService } from '../service/users.service';
+import { Public } from 'src/auth/decorators/public.decorator';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Public()
   @Post()
   public async create(@Res() response, @Body() createUserDto: CreateUserDto) {
     const user = await this.usersService.create(createUserDto);
