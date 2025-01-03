@@ -8,7 +8,7 @@ export class Vote {
   @ApiProperty({ example: 1, description: 'The unique identifier of the vote' })
   id: number;
 
-  @ManyToOne(() => Video, (video) => video.votes)
+  @ManyToOne(() => Video, (video) => video.votes, { onDelete: 'CASCADE' })
   @ApiProperty({
     type: () => Video,
     description: 'The video associated with the vote',

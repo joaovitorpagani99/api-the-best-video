@@ -37,4 +37,8 @@ export class VideoRepository {
       .limit(2)
       .getMany();
   }
+
+  public async deleteVideo(id: number) {
+    return await this.repository.delete(id);
+  }
 }

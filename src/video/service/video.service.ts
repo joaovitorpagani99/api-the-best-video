@@ -28,4 +28,8 @@ export class VideoService {
   public async updateVideo(video: Video): Promise<Video> {
     return this.videoRepository.updateVideo(video);
   }
+
+  public async deleteVideo(id: number) {
+    return this.videoRepository.deleteVideo(id);
+  }
 }

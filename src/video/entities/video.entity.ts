@@ -29,7 +29,10 @@ export class Video {
   })
   url: string;
 
-  @OneToMany(() => Vote, (vote) => vote.video)
+  @OneToMany(() => Vote, (vote) => vote.video, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   @ApiProperty({ type: () => [Vote], description: 'The votes for the video' })
   votes: Vote[];
 }

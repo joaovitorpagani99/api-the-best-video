@@ -10,11 +10,10 @@ import { AuthService } from '../service/auth.service';
 import { LoginDto } from '../dto/LoginDto';
 import { Public } from '../decorators/public.decorator';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
-import { Role } from 'src/common/enums/role.enum';
-import { Roles } from '../decorators/roles.decorator';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { ResponseStatus } from 'src/utils/response.enum';
+import { Response } from 'express';
 import { UsersService } from 'src/users/service/users.service';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { Role } from 'src/common/enums/role.enum';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -31,24 +30,27 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Login successful' })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
   @ApiBody({ type: LoginDto })
-  async login(@Body() loginDto: LoginDto) {
-    return await this.authService.login(loginDto);
+  async login(@Body() loginDto: LoginDto, @Res() response: Response) {
+    const loginResponse = await this.authService.login(loginDto);
+    return response.status(HttpStatus.OK).json({
+      access_token: loginResponse.access_token,
+      isAdmin: loginResponse.isAdmin,
+    });
   }
 
-  @Roles(Role.Admin)
   @Post('admin')
   @ApiOperation({ summary: 'Create a new admin' })
   @ApiResponse({ status: 201, description: 'Admin created successfully' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiBody({ type: CreateUserDto })
-  public async createAdmin(
-    @Res() response,
+  async createAdmin(
     @Body() createUserDto: CreateUserDto,
+    @Res() response: Response,
   ) {
     createUserDto.role = Role.Admin;
     const admin = await this.usersService.create(createUserDto);
     return response.status(HttpStatus.CREATED).json({
-      type: ResponseStatus.SUCCESS,
+      type: 'success',
       message: 'Admin has been created successfully',
       data: admin,
     });
